@@ -2,6 +2,8 @@ package com.example.upcpool.database
 
 import androidx.room.*
 import com.example.upcpool.models.Room
+import com.example.upcpool.models.Token
+
 @Dao
 interface RoomDAO {
     @Insert
