@@ -74,7 +74,7 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
         Log.d("Init load", "Init")
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/search/")
+            .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
