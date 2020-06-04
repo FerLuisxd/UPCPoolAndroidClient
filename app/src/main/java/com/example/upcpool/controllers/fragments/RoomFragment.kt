@@ -17,6 +17,7 @@ import com.example.upcpool.R
 import com.example.upcpool.adapters.RoomAdapter
 import com.example.upcpool.controllers.activities.DetailsActivity
 import com.example.upcpool.models.ApiResponseDetails
+import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Room
 import com.example.upcpool.network.RoomService
 import retrofit2.Call
@@ -82,34 +83,34 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
         //DECLARAMOS NUESTRO OBJETO RoomService
         val roomService: RoomService
         roomService = retrofit.create(RoomService::class.java)
-        val request = roomService.getRooms("3cae426b920b29ed2fb1c0749f258325",string)
+        val request = roomService.getAvailable()
 
         
-        request.enqueue(object : Callback<ApiResponseDetails> {
+        request.enqueue(object : Callback<List<Availables>> {
 
-            override fun onFailure(call: Call<ApiResponseDetails>, t: Throwable) {
+            override fun onFailure(call: Call<List<Availables>>, t: Throwable) {
                 Log.d("Activity Fail", "Error: "+t.toString())
             }
 
-            override fun onResponse(call: Call<ApiResponseDetails>, responseDetails: Response<ApiResponseDetails>) {
+            override fun onResponse(call: Call<List<Availables>>, responseDetails: Response<List<Availables>>) {
 
                 if (responseDetails.isSuccessful) {
                     Log.d("MSG", responseDetails.message())
                     Log.d("Error Body", responseDetails.errorBody().toString())
                     Log.d("Activity Success", responseDetails.raw().toString())
                     Log.d("Activity Success", responseDetails.body().toString())
-                    Log.d("Activity Success 1", responseDetails.body()?.results.toString())
-                    Log.d("Activity Success 2", responseDetails.body()?.results?.size.toString())
+                    //Log.d("Activity Success 1", responseDetails.body()?.start)
+                    //Log.d("Activity Success 2", responseDetails.body()?.available)
 
 
-                    val rooms: List<Room> = responseDetails.body()!!.results ?: ArrayList()
+                    val rooms: List<Room> = responseDetails.body()!![0].available ?: ArrayList()
                     println("aaa" + responseDetails.body())
                     recyclerView.layoutManager = LinearLayoutManager(context)
                     recyclerView.adapter = RoomAdapter(rooms,context,this@RoomFragment)
                 }
 
                 else{
-                    Log.d("Activity Fail", "Error: "+responseDetails.code())
+                    Log.d("Activity Fail2", "Error: "+responseDetails)
                 }
             }
 
@@ -118,7 +119,7 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(room: Room) {
-        Log.d("Principal", "Seleccionando detalle ID: "+room.id)
+        Log.d("Principal", "Seleccionando detalle ID: "+room.code)
         val intento = Intent(context, DetailsActivity::class.java)
         intento.putExtra("Room",room)
         startActivity(intento)

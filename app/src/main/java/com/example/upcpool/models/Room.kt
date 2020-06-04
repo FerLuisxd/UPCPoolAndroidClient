@@ -1,6 +1,7 @@
 package com.example.upcpool.models
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -9,12 +10,13 @@ import java.io.Serializable
     tableName = "rooms"
 )
 data class Room(
-    @PrimaryKey
-    @SerializedName("id")
-    val id : Int =0,
-    @SerializedName("title")
-    val title : String,
-    @SerializedName("overview")
-    val overview: String
+    @PrimaryKey(autoGenerate = true)
+    val id : Int,
+    @SerializedName("office")
+    val office : String = "",
+    @SerializedName("code")
+    val code: String = "",
+    @SerializedName("seats")
+    val seats: Int = 0
 ): Serializable {
 }

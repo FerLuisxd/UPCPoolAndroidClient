@@ -39,8 +39,8 @@ class RoomAdapter(private val rooms: List<Room>, private val context: Context, p
 
         val room = rooms[position]
 
-        holder.tvTitle.text = room.title
-        holder.tvOverview.text = room.overview
+        holder.tvTitle.text = room.code
+        holder.tvOverview.text = room.office
 
     /*    val picBuilder = Picasso.Builder(context)
         picBuilder.downloader(OkHttp3Downloader(context))

@@ -44,11 +44,11 @@ class DetailsActivity : AppCompatActivity() {
             .error(R.drawable.ic_launcher_background)
             .into(ivRoomDetail);*/
 
-        tvTitle.text = RoomObject?.title
+        tvTitle.text = RoomObject?.code
         if(RoomObject?.id != null)
             tvTitle.text = tvTitle.text as String? + "("+RoomObject.id+")"
         tvID.text = "ID: "+RoomObject?.id.toString()
-        tvOverview.text = "Resumen: "+RoomObject?.overview
+        tvOverview.text = "Resumen: "+RoomObject?.office
 
 
         fabInsert.setOnClickListener {
@@ -64,7 +64,7 @@ class DetailsActivity : AppCompatActivity() {
             var roomList = RoomDB.getInstance(this).getRoomDAO().getAllRooms()
             var boolean = true
             for (room in roomList){
-                if(room.title == RoomObject.title)
+                if(room.code == RoomObject.office)
                     boolean =false
             }
             if(boolean)
