@@ -3,14 +3,11 @@ package com.example.upcpool.controllers.activities
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.upcpool.R
 import com.example.upcpool.models.Room
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.squareup.picasso.OkHttp3Downloader
-import com.squareup.picasso.Picasso
 import com.example.upcpool.database.RoomDB
 
 class DetailsActivity : AppCompatActivity() {
@@ -24,10 +21,10 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.room_details)
-        tvOverview = findViewById(R.id.tvOverview)
-        tvTitle = findViewById(R.id.tvTitle)
-        tvID = findViewById(R.id.tvId)
-        fabInsert = findViewById(R.id.fab)
+        tvOverview = findViewById(R.id.tvInfo)
+        tvTitle = findViewById(R.id.tvNumber)
+        tvID = findViewById(R.id.tvTopic)
+        //fabInsert = findViewById(R.id.fab)
         supportActionBar?.setHomeButtonEnabled(true);
 
         initFields(this)

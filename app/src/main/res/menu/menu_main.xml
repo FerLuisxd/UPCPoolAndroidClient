@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/menu_home"
-        android:title="Buscar"
-        android:icon="@drawable/ic_home_black_24dp"
-        />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Profile" />
 
-    <item android:id="@+id/menu_favourite"
-        android:title="Favoritos"
-        android:icon="@drawable/ic_favorite_black_24dp"/>
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
+    <item
+        android:id="@+id/menu_shared"
+        android:icon="@drawable/ic_import_contacts_black_24dp"
+        android:title="Shared" />
 
 
 

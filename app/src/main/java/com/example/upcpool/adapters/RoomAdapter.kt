@@ -4,20 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.upcpool.R
 import com.example.upcpool.models.Room
-import com.squareup.picasso.OkHttp3Downloader
-import com.squareup.picasso.Picasso
 
 class RoomAdapter(private val rooms: List<Room>, private val context: Context, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View): RecyclerView.ViewHolder(view){
-        val tvTitle = view.findViewById(R.id.tvTitle) as TextView
-        val tvOverview = view.findViewById(R.id.tvOverview) as TextView
+        val tvTitle = view.findViewById(R.id.tvNumber) as TextView
+        val tvOverview = view.findViewById(R.id.tvInfo) as TextView
 
         val cvRoom = view.findViewById(R.id.cvRoom) as CardView
     }
