@@ -25,6 +25,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.time.days
 
 
 class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
@@ -103,10 +106,31 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     //Log.d("Activity Success 2", responseDetails.body()?.available)
 
 
-                    val rooms: List<Room> = responseDetails.body()!![0].available ?: ArrayList()
+                    val allRooms: List<Availables> = responseDetails.body() ?: ArrayList()
+                    val allAvailables: MutableList<Availables> = arrayListOf()
+                    val cal = Calendar.getInstance()
+                    val rooms: MutableList<Room> = ArrayList()
+
+                    cal.add(Calendar.HOUR, 1)
+
+                    println(cal)
+                    println(cal.time)
+                    println("////////////////////////////////////////////////////////////////////////////////////////////")
+
+                    allRooms.forEach {
+                        if (it.start > cal.time) {
+                            allAvailables.add(it)
+                            println(it.start)
+                            it.available.forEach{
+                                rooms.add(it)
+                            }
+                        }
+                    }
+
+                    //val rooms: List<Room> = responseDetails.body()!![0].available ?: ArrayList()
                     println("aaa" + responseDetails.body())
                     recyclerView.layoutManager = LinearLayoutManager(context)
-                    recyclerView.adapter = RoomAdapter(rooms,context,this@RoomFragment)
+                    recyclerView.adapter = RoomAdapter(allAvailables, rooms,context,this@RoomFragment)
                 }
 
                 else{

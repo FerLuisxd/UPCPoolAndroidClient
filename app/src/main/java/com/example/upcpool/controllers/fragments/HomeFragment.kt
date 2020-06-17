@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.upcpool.R
 import com.example.upcpool.adapters.RoomAdapter
+import com.example.upcpool.adapters.RoomAdapter2
 import com.example.upcpool.controllers.activities.MainActivity
 import com.example.upcpool.database.RoomDB
+import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Room
 
-class SaveFragment : Fragment(), RoomAdapter.OnItemClickListener {
+class HomeFragment : Fragment(), RoomAdapter2.OnItemClickListener {
 
     var rooms: List<Room> = ArrayList()
     lateinit var recyclerView: RecyclerView
@@ -34,9 +36,10 @@ class SaveFragment : Fragment(), RoomAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         vieww = view
         rooms = RoomDB.getInstance(view.context).getRoomDAO().getAllRooms()
+
         recyclerView = view.findViewById(R.id.RoomSave)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter  = RoomAdapter(rooms,view.context,this)
+        recyclerView.adapter  = RoomAdapter2(rooms,view.context,this)
 
     }
     override fun onItemClicked(room: Room) {

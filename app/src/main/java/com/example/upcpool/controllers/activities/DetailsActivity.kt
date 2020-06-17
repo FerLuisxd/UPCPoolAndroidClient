@@ -3,6 +3,7 @@ package com.example.upcpool.controllers.activities
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.upcpool.R
@@ -12,19 +13,21 @@ import com.example.upcpool.database.RoomDB
 
 class DetailsActivity : AppCompatActivity() {
 
-    lateinit var tvOverview: TextView
-    lateinit var tvTitle: TextView
-    lateinit var tvID: TextView
-    lateinit var fabInsert: FloatingActionButton
+    lateinit var tvNumber: TextView
+    lateinit var tvInfo: TextView
+    lateinit var tvTopic: TextView
+    lateinit var btnYes: Button
+    lateinit var btnNo: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.room_details)
-        tvOverview = findViewById(R.id.tvInfo)
-        tvTitle = findViewById(R.id.tvNumber)
-        tvID = findViewById(R.id.tvTopic)
-        //fabInsert = findViewById(R.id.fab)
+        tvNumber = findViewById(R.id.tvNumber)
+        tvInfo = findViewById(R.id.tvInfo)
+        tvTopic = findViewById(R.id.tvTopic)
+        btnYes = findViewById(R.id.bYes)
+        btnNo = findViewById(R.id.bNo)
         supportActionBar?.setHomeButtonEnabled(true);
 
         initFields(this)
@@ -41,21 +44,18 @@ class DetailsActivity : AppCompatActivity() {
             .error(R.drawable.ic_launcher_background)
             .into(ivRoomDetail);*/
 
-        tvTitle.text = RoomObject?.code
-        if(RoomObject?.id != null)
-            tvTitle.text = tvTitle.text as String? + "("+RoomObject.id+")"
-        tvID.text = "ID: "+RoomObject?.id.toString()
-        tvOverview.text = "Resumen: "+RoomObject?.office
+        tvNumber.text = RoomObject?.code
+        tvInfo.text = RoomObject?.office
+        tvTopic.text = RoomObject?.seats.toString()
 
 
-        fabInsert.setOnClickListener {
+        btnYes.setOnClickListener {
             saveRoom(RoomObject)
             finish()
         }
     }
 
     private fun saveRoom(RoomObject: Room?){
-        //TODO Registro en base de datos
         if (RoomObject != null) {
             Log.d("Insert favorito","Insertando favorito: "+RoomObject.toString());
             var roomList = RoomDB.getInstance(this).getRoomDAO().getAllRooms()

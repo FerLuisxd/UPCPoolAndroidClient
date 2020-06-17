@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_profile"
+        android:id="@+id/menu_reserve"
         android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Profile" />
+        android:title="Reserve" />
 
     <item
         android:id="@+id/menu_home"
