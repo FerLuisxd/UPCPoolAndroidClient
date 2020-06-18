@@ -10,6 +10,17 @@ import com.example.upcpool.R
 import com.example.upcpool.models.Room
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.upcpool.database.RoomDB
+import com.example.upcpool.entity.ReservationPost
+import com.example.upcpool.entity.ReservationRoom
+import com.example.upcpool.entity.RoomDto
+import com.example.upcpool.models.Availables
+import com.example.upcpool.models.Reservation
+import com.example.upcpool.network.RoomService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -30,12 +41,14 @@ class DetailsActivity : AppCompatActivity() {
         btnNo = findViewById(R.id.bNo)
         supportActionBar?.setHomeButtonEnabled(true);
 
+        setSupportActionBar(findViewById(R.id.app_bar))
+
         initFields(this)
     }
 
     private fun initFields(context: Context){
 
-        val RoomObject: Room? = intent.getSerializableExtra("Room") as Room?
+        val RoomObject: RoomDto? = intent.getSerializableExtra("Room") as RoomDto?
 
        /* val picBuilder = Picasso.Builder(context)
         picBuilder.downloader(OkHttp3Downloader(context))
@@ -50,22 +63,39 @@ class DetailsActivity : AppCompatActivity() {
 
 
         btnYes.setOnClickListener {
-            saveRoom(RoomObject)
+            reserveRoom(RoomObject)
             finish()
         }
     }
 
-    private fun saveRoom(RoomObject: Room?){
-        if (RoomObject != null) {
-            Log.d("Insert favorito","Insertando favorito: "+RoomObject.toString());
-            var roomList = RoomDB.getInstance(this).getRoomDAO().getAllRooms()
-            var boolean = true
-            for (room in roomList){
-                if(room.code == RoomObject.office)
-                    boolean =false
+    private fun reserveRoom(RoomObject: RoomDto?){
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        //DECLARAMOS NUESTRO OBJETO RoomService
+        val roomService: RoomService
+        roomService = retrofit.create(RoomService::class.java)
+
+        val auxRoomPost = RoomObject?.let { ReservationRoom(RoomObject.office, RoomObject.code) }
+        val post = auxRoomPost?.let { ReservationPost(it, 1, "u123456789", RoomObject.date) }
+
+        val request = post?.let { roomService.reserveRoom(it) }
+
+        request?.enqueue(object : Callback<Reservation> {
+            override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                Log.d("Details Activity Fail", "Error: "+t.toString())
             }
-            if(boolean)
-                RoomDB.getInstance(this).getRoomDAO().insertRoom(RoomObject)
-        }
+
+            override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
+                println(response)
+                println("Reserva hecha correctamente !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            }
+
+
+        })
+
     }
 }

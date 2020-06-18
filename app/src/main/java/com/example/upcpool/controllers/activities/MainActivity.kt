@@ -1,8 +1,11 @@
 package com.example.upcpool.controllers.activities
 
+import android.drm.DrmStore
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toolbar
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.upcpool.R
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         navigateTo(navView.menu.findItem(R.id.menu_home))
         supportActionBar?.setHomeButtonEnabled(true);
+        setSupportActionBar(findViewById(R.id.app_bar))
+
         Log.d("ENTRO", "Si entro we2")
 
         /*val bottomNavigationView =

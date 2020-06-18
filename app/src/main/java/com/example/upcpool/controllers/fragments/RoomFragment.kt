@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.upcpool.R
 import com.example.upcpool.adapters.RoomAdapter
 import com.example.upcpool.controllers.activities.DetailsActivity
+import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.ApiResponseDetails
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Room
@@ -31,7 +32,7 @@ import kotlin.time.days
 
 
 class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
-    var room: List<Room> = ArrayList()
+    var room: List<RoomDto> = ArrayList()
     lateinit var recyclerView: RecyclerView
     lateinit var editText: EditText
     override fun onCreateView(
@@ -106,10 +107,9 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     //Log.d("Activity Success 2", responseDetails.body()?.available)
 
 
-                    val allRooms: List<Availables> = responseDetails.body() ?: ArrayList()
-                    val allAvailables: MutableList<Availables> = arrayListOf()
+                    val allAvailables: List<Availables> = responseDetails.body() ?: ArrayList()
                     val cal = Calendar.getInstance()
-                    val rooms: MutableList<Room> = ArrayList()
+                    val rooms: MutableList<RoomDto> = ArrayList()
 
                     cal.add(Calendar.HOUR, 1)
 
@@ -117,12 +117,12 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     println(cal.time)
                     println("////////////////////////////////////////////////////////////////////////////////////////////")
 
-                    allRooms.forEach {
-                        if (it.start > cal.time) {
-                            allAvailables.add(it)
-                            println(it.start)
-                            it.available.forEach{
-                                rooms.add(it)
+                    allAvailables.forEach() {available ->
+                        if (available.start > cal.time) {
+                            println(available.start)
+                            available.available.forEach{ room->
+                                val auxRoom = RoomDto(room.id, room.office,room.code,room.seats,room.features,available.start)
+                                rooms.add(auxRoom)
                             }
                         }
                     }
@@ -130,7 +130,7 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     //val rooms: List<Room> = responseDetails.body()!![0].available ?: ArrayList()
                     println("aaa" + responseDetails.body())
                     recyclerView.layoutManager = LinearLayoutManager(context)
-                    recyclerView.adapter = RoomAdapter(allAvailables, rooms,context,this@RoomFragment)
+                    recyclerView.adapter = RoomAdapter(rooms,context,this@RoomFragment)
                 }
 
                 else{
@@ -142,7 +142,7 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
 
     }
 
-    override fun onItemClicked(room: Room) {
+    override fun onItemClicked(room: RoomDto) {
         Log.d("Principal", "Seleccionando detalle ID: "+room.code)
         val intento = Intent(context, DetailsActivity::class.java)
         intento.putExtra("Room",room)
