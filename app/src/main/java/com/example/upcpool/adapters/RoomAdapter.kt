@@ -12,6 +12,7 @@ import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.Available
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Room
+import java.util.*
 
 class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
 
@@ -48,7 +49,15 @@ class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context
         holder.tvInfo.text = room.office
         holder.tvResources.text = room.features[0] + room.features[1]
         holder.tvSitsLeft.text = room.seats.toString()
-        holder.tvDate.text = room.date.toString()
+
+        val date = room.date
+        val cal = Calendar.getInstance()
+        cal.setTime(date)
+        cal.add(Calendar.HOUR, -5)
+        val aux:Date = cal.getTime()
+        //holder.tvDate.text = room.date.toString()
+        holder.tvDate.text = aux.toString()
+
 
     /*    val picBuilder = Picasso.Builder(context)
         picBuilder.downloader(OkHttp3Downloader(context))

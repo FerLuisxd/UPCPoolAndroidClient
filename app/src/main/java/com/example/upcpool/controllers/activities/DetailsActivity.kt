@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.upcpool.R
 import com.example.upcpool.models.Room
@@ -16,6 +18,7 @@ import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Reservation
 import com.example.upcpool.network.RoomService
+import kotlinx.android.synthetic.main.room_details.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +33,9 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var btnYes: Button
     lateinit var btnNo: Button
 
+    lateinit var etTiu: EditText
+    lateinit var etHours: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +45,10 @@ class DetailsActivity : AppCompatActivity() {
         tvTopic = findViewById(R.id.tvTopic)
         btnYes = findViewById(R.id.bYes)
         btnNo = findViewById(R.id.bNo)
+
+        etTiu = findViewById(R.id.et_tiu2)
+        etHours = findViewById(R.id.et_hours)
+
         supportActionBar?.setHomeButtonEnabled(true);
 
         setSupportActionBar(findViewById(R.id.app_bar))
@@ -63,12 +73,12 @@ class DetailsActivity : AppCompatActivity() {
 
 
         btnYes.setOnClickListener {
-            reserveRoom(RoomObject)
+            reserveRoom(RoomObject, context)
             finish()
         }
     }
 
-    private fun reserveRoom(RoomObject: RoomDto?){
+    private fun reserveRoom(RoomObject: RoomDto?, context:Context){
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
@@ -80,8 +90,7 @@ class DetailsActivity : AppCompatActivity() {
         roomService = retrofit.create(RoomService::class.java)
 
         val auxRoomPost = RoomObject?.let { ReservationRoom(RoomObject.office, RoomObject.code) }
-        val post = auxRoomPost?.let { ReservationPost(it, 1, "u123456789", RoomObject.date) }
-
+        val post = auxRoomPost?.let { ReservationPost(it, Integer.parseInt(etHours.text.toString()), etTiu.text.toString(), RoomObject.date) }
         val request = post?.let { roomService.reserveRoom(it) }
 
         request?.enqueue(object : Callback<Reservation> {
@@ -90,6 +99,11 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
+                /*val mAlertDialog = AlertDialog.Builder(context)
+                mAlertDialog.setTitle("Cubiculo reservado")
+                mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                }
+                mAlertDialog.show()*/
                 println(response)
                 println("Reserva hecha correctamente !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             }

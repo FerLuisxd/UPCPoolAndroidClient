@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.086" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/actual_reserve"
+        android:id="@+id/actual_room"
         android:layout_width="350dp"
         android:layout_height="155dp"
         android:background="@color/colorPrimary"
@@ -90,7 +90,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/actual_room"
+        android:id="@+id/actual_reserve"
         android:layout_width="349dp"
         android:layout_height="153dp"
         android:background="@color/colorPrimary"

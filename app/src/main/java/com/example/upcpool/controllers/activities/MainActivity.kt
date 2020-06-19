@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.upcpool.R
 import com.example.upcpool.controllers.fragments.RoomFragment
 import com.example.upcpool.controllers.fragments.HomeFragment
+import com.example.upcpool.controllers.fragments.SharedFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.menu_reserve -> RoomFragment()
             R.id.menu_home -> HomeFragment()
-            R.id.menu_shared -> HomeFragment()
+            R.id.menu_shared -> SharedFragment()
             else -> HomeFragment()
         }
     }

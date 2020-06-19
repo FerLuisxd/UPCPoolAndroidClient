@@ -7,6 +7,8 @@ data class Reservation(
 
     @SerializedName("_id")
     var _id:String,
+    @SerializedName("seats")
+    var seats:List<Seat>,
     @SerializedName("active")
     var active:Boolean,
     @SerializedName("start")

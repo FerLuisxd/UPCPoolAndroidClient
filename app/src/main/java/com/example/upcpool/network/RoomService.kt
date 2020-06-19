@@ -3,10 +3,7 @@ package com.example.upcpool.network
 import androidx.annotation.AnyRes
 import com.example.upcpool.entity.ReservationPost
 import com.example.upcpool.entity.User
-import com.example.upcpool.models.ApiResponseDetails
-import com.example.upcpool.models.LoginResponseDetails
-import com.example.upcpool.models.Availables
-import com.example.upcpool.models.Reservation
+import com.example.upcpool.models.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -45,4 +42,17 @@ interface RoomService {
         "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWFiYWQyZGYxNDk1NzAwMWQ3ZGMzNjgiLCJpYXQiOjE1ODgzMDkyOTMsImV4cCI6MTU5NjA4NTI5M30.dA7pSABqN3-9AMduIes-1sIyuKHrneM-qe8uhNXMS9Q"
     ])
     fun getReservations() : Call<List<Reservation>>
+
+    //Obtener cubiculos reservados
+    @PUT("reservation/{id}")
+    @Headers(value = [
+        "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWFiYWQyZGYxNDk1NzAwMWQ3ZGMzNjgiLCJpYXQiOjE1ODgzMDkyOTMsImV4cCI6MTU5NjA4NTI5M30.dA7pSABqN3-9AMduIes-1sIyuKHrneM-qe8uhNXMS9Q"
+    ])
+    fun activateReservation(@Path("id")id:String) : Call<Reservation>
+
+    @GET("user/")
+    @Headers(value = [
+        "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWFiYWQyZGYxNDk1NzAwMWQ3ZGMzNjgiLCJpYXQiOjE1ODgzMDkyOTMsImV4cCI6MTU5NjA4NTI5M30.dA7pSABqN3-9AMduIes-1sIyuKHrneM-qe8uhNXMS9Q"
+    ])
+    fun getUser(@Path("id")id:String) : Call<User>
 }

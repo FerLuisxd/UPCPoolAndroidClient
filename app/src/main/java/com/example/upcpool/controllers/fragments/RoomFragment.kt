@@ -111,7 +111,7 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     val cal = Calendar.getInstance()
                     val rooms: MutableList<RoomDto> = ArrayList()
 
-                    cal.add(Calendar.HOUR, 1)
+                    cal.add(Calendar.HOUR, 6) //Debe ser 1 pero se le suman 5 mas por el GMT
 
                     println(cal)
                     println(cal.time)
