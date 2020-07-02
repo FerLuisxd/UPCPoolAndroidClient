@@ -1,6 +1,7 @@
 package com.example.upcpool.controllers.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -76,6 +77,11 @@ class DetailsActivity : AppCompatActivity() {
             reserveRoom(RoomObject, context)
 
         }
+
+        btnNo.setOnClickListener {
+            val intento = Intent(context, MainActivity::class.java)
+            startActivity(intento)
+        }
     }
     private fun getHeaderMap(token : String): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
@@ -120,7 +126,7 @@ class DetailsActivity : AppCompatActivity() {
                 else
                 {
                     val mAlertDialog = AlertDialog.Builder(context)
-                    mAlertDialog.setTitle(response.message())
+                    mAlertDialog.setTitle("Error al reservar cubiculo")
                     mAlertDialog.setPositiveButton("Ok") { dialog, id ->
                         finish()
                     }

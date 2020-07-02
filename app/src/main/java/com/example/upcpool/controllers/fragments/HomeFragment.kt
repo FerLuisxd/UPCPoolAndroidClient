@@ -13,11 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.upcpool.R
+import com.example.upcpool.controllers.activities.MainActivity
 import com.example.upcpool.controllers.activities.RoomActivity
 import com.example.upcpool.database.RoomDB
 import com.example.upcpool.entity.UserDto
 import com.example.upcpool.models.Reservation
 import com.example.upcpool.network.RoomService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -106,8 +108,15 @@ class HomeFragment : Fragment(){
                         view.findViewById<TextView>(R.id.tv_recurso1).text = reservation.room.features[0]
                         view.findViewById<TextView>(R.id.tv_recurso2).text = reservation.room.features[1]
 
-                        view.findViewById<Button>(R.id.btn_room).isEnabled = false
-                        view.findViewById<Button>(R.id.btn_room).visibility = Button.INVISIBLE
+                        val boton = view.findViewById<FloatingActionButton>(R.id.btn_Eliminate)
+
+                        boton.visibility = FloatingActionButton.VISIBLE
+                        boton.isClickable = true
+
+                        boton.setOnClickListener{
+                            borrarReserva(reservation, context)
+                        }
+
                         view.findViewById<ConstraintLayout>(R.id.actual_reserve).visibility = ConstraintLayout.VISIBLE
 
                         val layout = view.findViewById<ConstraintLayout>(R.id.actual_reserve)
@@ -162,6 +171,40 @@ class HomeFragment : Fragment(){
         })
 
     }
+
+    private fun borrarReserva(reserva: Reservation, context:Context) {
+        val mAlertDialog = AlertDialog.Builder(context)
+        mAlertDialog.setTitle("¿Desea eliminar reserva?")
+        mAlertDialog.setPositiveButton("Si") { dialog, id ->
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val roomService: RoomService
+            roomService = retrofit.create(RoomService::class.java)
+            val request = roomService.deleteRoom(reserva._id,getHeaderMap(token))
+
+            request.enqueue(object : Callback<Reservation> {
+                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+                override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
+                    val mAlertDialog = AlertDialog.Builder(context)
+                    mAlertDialog.setTitle("Reserva eliminada")
+                    mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                        val intento = Intent(context, MainActivity::class.java)
+                        startActivity(intento)
+                    }
+                    mAlertDialog.show()
+                }
+            })
+        }
+        mAlertDialog.setNegativeButton("No"){ dialog, id ->}
+        mAlertDialog.show()
+
+    }
+
     private fun getHeaderMap(token : String): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
         headerMap["Authorization"] = "Bearer $token"
@@ -313,8 +356,6 @@ class HomeFragment : Fragment(){
                                             view.findViewById<TextView>(R.id.tv_actualCode).text = pub.room.code
                                             view.findViewById<TextView>(R.id.tv_actualSeats).text = pub.room.seats.toString()
 
-                                            view.findViewById<Button>(R.id.btn_shared).isEnabled = false
-                                            view.findViewById<Button>(R.id.btn_shared).visibility = Button.INVISIBLE
                                             view.findViewById<ConstraintLayout>(R.id.actual_room).visibility = ConstraintLayout.VISIBLE
 
                                             val layout = view.findViewById<ConstraintLayout>(R.id.actual_room)

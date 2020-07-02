@@ -76,6 +76,8 @@ interface RoomService {
     //])
     fun shareRoom(@Path("id")id:String, @Body()body : Share, @HeaderMap headers: Map<String, String>) : Call<Reservation>
 
+    @DELETE("reservation/{id}")
+    fun deleteRoom(@Path("id")id:String, @HeaderMap headers: Map<String, String>) : Call<Reservation>
 
 }
 
