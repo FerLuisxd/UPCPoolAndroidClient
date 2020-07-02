@@ -52,7 +52,7 @@
         android:layout_width="350dp"
         android:layout_height="155dp"
         android:background="@drawable/layout_border"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -79,8 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recursos:"
-            android:textSize="17sp"
             android:textColor="@color/white"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.054"
@@ -107,8 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recurso2"
-            android:textSize="17sp"
             android:textColor="@color/white"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.331"
@@ -167,10 +167,10 @@
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintHorizontal_bias="0.766"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.303" />
+            app:layout_constraintVertical_bias="0.295" />
 
         <TextView
             android:id="@+id/tv_actualDate2"
@@ -181,10 +181,10 @@
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.434"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.303" />
+            app:layout_constraintVertical_bias="0.295" />
 
         <TextView
             android:id="@+id/tv_actualOffice"

@@ -118,8 +118,7 @@ class HomeFragment : Fragment(){
 
                         val layout = view.findViewById<ConstraintLayout>(R.id.actual_reserve)
                         layout.setOnClickListener{
-
-                                /*val r = roomService.getUser(getHeaderMap(token))
+                                val r = roomService.getUser(getHeaderMap(token))
                                 r.enqueue(object : Callback<UserDto> {
                                     override fun onFailure(call: Call<UserDto>, t: Throwable) {
                                         println("Fallo en obtener el user")
@@ -144,9 +143,9 @@ class HomeFragment : Fragment(){
                                                     startActivity(intento)
                                                 }
                                                 else
-                                                {*/
+                                                {
                                                     activar(reservation, context)
-                                                /*}
+                                                }
                                             }
                                         }
                                         else
@@ -154,7 +153,7 @@ class HomeFragment : Fragment(){
                                             println("La respuesta no fue 200")
                                         }
                                     }
-                                })*/
+                                })
                         }
                     }
                     entrar(view)
@@ -302,7 +301,8 @@ class HomeFragment : Fragment(){
         val request = roomService.getPublics(getHeaderMap(token))
         request.enqueue(object : Callback<List<Reservation>> {
             override fun onFailure(call: Call<List<Reservation>>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                println("Algo salio mal")
+                println(t)
             }
 
             override fun onResponse(
@@ -344,9 +344,9 @@ class HomeFragment : Fragment(){
 
                                             val formatter = SimpleDateFormat("dd-MMMM HH:00");
 
-                                            val date = formatter.format(pub.start)
 
-                                            view.findViewById<TextView>(R.id.tv_actualDate).text= date
+
+                                            view.findViewById<TextView>(R.id.tv_actualDate).text= pub.start
                                             view.findViewById<TextView>(R.id.tv_actualOffice).text= pub.room.office
                                             view.findViewById<TextView>(R.id.tv_actualRecurso1).text = pub.room.features[0]
                                             view.findViewById<TextView>(R.id.tv_actuLRecurso2).text = pub.room.features[1]
