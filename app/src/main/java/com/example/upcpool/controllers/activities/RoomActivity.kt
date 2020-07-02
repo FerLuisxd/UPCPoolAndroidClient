@@ -14,6 +14,7 @@ import com.example.upcpool.R
 import com.example.upcpool.controllers.fragments.HomeFragment
 import com.example.upcpool.controllers.fragments.RoomFragment
 import com.example.upcpool.controllers.fragments.SharedFragment
+import com.example.upcpool.database.RoomDB
 import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.entity.Share
 import com.example.upcpool.models.Reservation
@@ -104,9 +105,11 @@ class RoomActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+
+        val token: String  = RoomDB.getInstance(this).getTokenDAO().getLastToken().token
         val roomService: RoomService
         roomService = retrofit.create(RoomService::class.java)
-        val request = roomService.shareRoom(RoomObject.pubId, shared)
+        val request = roomService.shareRoom(RoomObject.pubId, shared,getHeaderMap(token))
 
         request.enqueue(object : Callback<Reservation> {
             override fun onFailure(call: Call<Reservation>, t: Throwable) {
@@ -155,6 +158,12 @@ class RoomActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.flFragment, getFragmentFor(item))
             .commit() > 0
+    }
+
+    private fun getHeaderMap(token : String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Authorization"] = "Bearer $token"
+        return headerMap
     }
 
 }
