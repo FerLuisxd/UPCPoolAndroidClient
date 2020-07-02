@@ -1,6 +1,7 @@
 package com.example.upcpool.controllers.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.upcpool.R
+import com.example.upcpool.controllers.activities.RoomActivity
+import com.example.upcpool.entity.UserDto
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Reservation
 import com.example.upcpool.models.Seat
@@ -100,10 +103,47 @@ class HomeFragment : Fragment(){
                         layout.setOnClickListener{
                             if (reservation.active)
                             {
-                                //TODO: Mandarlo al RoomActivity
+                                val intento = Intent(context, RoomActivity::class.java)
+                                intento.putExtra("Room", reservation.room)
+                                startActivity(intento)
                             }
                             else {
-                                activar(reservation, context)
+                                val r = roomService.getUser()
+                                r.enqueue(object : Callback<UserDto> {
+                                    override fun onFailure(call: Call<UserDto>, t: Throwable) {
+                                        println("Fallo en obtener el user")
+                                    }
+
+                                    override fun onResponse(
+                                        call: Call<UserDto>,
+                                        responseDetails: Response<UserDto>
+                                    ) {
+                                        if (responseDetails.isSuccessful) {
+                                            Log.d("MSG", responseDetails.message())
+                                            Log.d("Error Body", responseDetails.errorBody().toString())
+                                            Log.d("Activity Success", responseDetails.raw().toString())
+                                            Log.d("Activity Success", responseDetails.body().toString())
+                                            val usuario = responseDetails.body()
+                                            println("Pudo obtener el user")
+                                            if (usuario != null) {
+                                                println("Entre")
+                                                if (usuario.inRoom){
+                                                    val intento = Intent(context, RoomActivity::class.java)
+                                                    intento.putExtra("Room", reservation.room)
+                                                    startActivity(intento)
+                                                }
+                                                else
+                                                {
+                                                    activar(reservation, context)
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            println("La respuesta no fue 200")
+                                        }
+                                    }
+                                })
                             }
                         }
 
@@ -161,7 +201,9 @@ class HomeFragment : Fragment(){
                                             val mAlertDialog = AlertDialog.Builder(context)
                                             mAlertDialog.setTitle("Cubiculo activado!!!")
                                             mAlertDialog.setPositiveButton("Ok") { dialog, id ->
-                                                //TODO: Mandarlo al RoomActivity
+                                                val intento = Intent(context, RoomActivity::class.java)
+                                                intento.putExtra("Room", activo.room)
+                                                startActivity(intento)
                                             }
                                             mAlertDialog.show()
                                         }
@@ -170,7 +212,9 @@ class HomeFragment : Fragment(){
                                             mAlertDialog.setTitle("Cubiculo activado!!!")
                                             mAlertDialog.setMessage("Falta que el otro estudiante active el cubiculo")
                                             mAlertDialog.setPositiveButton("Ok") { dialog, id ->
-                                                //TODO: Mandarlo al RoomActivity
+                                                val intento = Intent(context, RoomActivity::class.java)
+                                                intento.putExtra("Room", activo.room)
+                                                startActivity(intento)
                                             }
                                             mAlertDialog.show()
                                         }
