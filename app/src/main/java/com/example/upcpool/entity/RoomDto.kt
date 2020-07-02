@@ -11,7 +11,7 @@ class RoomDto(_id : Int, _office : String, _code : String, _seats: Int, _feature
     val features : List<String> = _features
     val date : Date = _date
     var pubId : String = ""
-
+    var theme : String = ""
 }
 
 

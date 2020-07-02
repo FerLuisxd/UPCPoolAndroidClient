@@ -1,5 +1,6 @@
 package com.example.upcpool.models
 
+import com.example.upcpool.entity.RoomDto
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -18,13 +19,15 @@ data class Reservation(
     @SerializedName("end")
     var end:Date,
     @SerializedName("room")
-    var room:Room,
+    var room: RoomDto,
     @SerializedName("userCode")
     var userCode:String,
     @SerializedName("userSecondaryCode")
     var userSecondaryCode:String,
     @SerializedName("public")
-    var public:Boolean
+    var public:Boolean,
+    @SerializedName("theme")
+    var theme:String
 
 
     ) {

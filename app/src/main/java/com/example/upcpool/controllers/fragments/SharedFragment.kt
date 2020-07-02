@@ -100,6 +100,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     allPublics.forEach() {
                         val auxRoom = RoomDto(it.room.id, it.room.office, it.room.code, it.room.seats - it.seats.size, it.publicFeatures, it.start)
                         auxRoom.pubId = it._id
+                        auxRoom.theme = it.theme
                         rooms.add(auxRoom)
                     }
 
@@ -114,7 +115,6 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(room: RoomDto) {
-
         val alertbox = this.context?.let {
             AlertDialog.Builder(it)
                 .setTitle("Elige con que elemento quieres ingresar:")

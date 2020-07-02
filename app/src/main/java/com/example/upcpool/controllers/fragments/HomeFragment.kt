@@ -90,6 +90,8 @@ class HomeFragment : Fragment(){
                                 reservation=it
                             }
                         }
+                        reservation.room.pubId = reservation._id
+                        reservation.room.theme = reservation.theme
 
                         view.findViewById<TextView>(R.id.tv_code).text = reservation.room.code
                         view.findViewById<TextView>(R.id.tv_seats).text = reservation.room.seats.toString()

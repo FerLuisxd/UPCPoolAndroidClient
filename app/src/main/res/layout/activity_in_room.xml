@@ -4,7 +4,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".controllers.activities.RoomActivity">
+
+    <include
+        layout = "@layout/app_bar"
+        android:id="@+id/app_bar" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigationView"
+        android:layout_width="412dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/softblack"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_main" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <TextView
         android:id="@+id/tvRoom"
@@ -51,7 +71,7 @@
         app:srcCompat="@drawable/ic_report_problem_24px" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
+        android:id="@+id/btn_Share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -72,7 +92,7 @@
         android:clickable="true"
         app:backgroundTint="#f82d2d"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/floatingActionButton3"
+        app:layout_constraintStart_toEndOf="@+id/btn_Share"
         app:layout_constraintTop_toBottomOf="@+id/tvTopic"
         app:srcCompat="@drawable/ic_laptop_mac_24px" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,7 +45,7 @@ class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context
 
         val room = rooms[position]
         holder.tvNumber.text = room.code
-        holder.tvTopic.text = "TODO"
+        holder.tvTopic.text = room.theme
         holder.tvInfo.text = room.office
 
         var auxResource: String = ""
