@@ -222,7 +222,7 @@
         android:layout_width="349dp"
         android:layout_height="153dp"
         android:background="@drawable/layout_border"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
