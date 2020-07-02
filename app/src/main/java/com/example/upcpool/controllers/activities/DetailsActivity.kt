@@ -77,7 +77,11 @@ class DetailsActivity : AppCompatActivity() {
             finish()
         }
     }
-
+    private fun getHeaderMap(token : String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Authorization"] = "Bearer $token"
+        return headerMap
+    }
     private fun reserveRoom(RoomObject: RoomDto?, context:Context){
 
         val retrofit = Retrofit.Builder()
@@ -88,10 +92,10 @@ class DetailsActivity : AppCompatActivity() {
         //DECLARAMOS NUESTRO OBJETO RoomService
         val roomService: RoomService
         roomService = retrofit.create(RoomService::class.java)
-
+        val token: String  = RoomDB.getInstance(this).getTokenDAO().getLastToken().token
         val auxRoomPost = RoomObject?.let { ReservationRoom(RoomObject.office, RoomObject.code) }
         val post = auxRoomPost?.let { ReservationPost(it, Integer.parseInt(etHours.text.toString()), etTiu.text.toString(), RoomObject.date) }
-        val request = post?.let { roomService.reserveRoom(it) }
+        val request = post?.let { roomService.reserveRoom(it,getHeaderMap(token)) }
 
         request?.enqueue(object : Callback<Reservation> {
             override fun onFailure(call: Call<Reservation>, t: Throwable) {

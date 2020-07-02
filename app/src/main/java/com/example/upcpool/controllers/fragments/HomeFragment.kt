@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.upcpool.R
 import com.example.upcpool.controllers.activities.RoomActivity
+import com.example.upcpool.database.RoomDB
 import com.example.upcpool.entity.UserDto
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Reservation
@@ -31,6 +32,7 @@ import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment(){
 
+    lateinit var token : String
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +44,7 @@ class HomeFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        token  = RoomDB.getInstance(view.context).getTokenDAO().getLastToken().token
 
         getReserva(view.context, view)
 
@@ -158,7 +161,11 @@ class HomeFragment : Fragment(){
         })
 
     }
-
+    private fun getHeaderMap(token : String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Authorization"] = "Bearer $token"
+        return headerMap
+    }
     private fun activar(reservation : Reservation, context : Context)
     {
         println("Entro a la funcion de activar")
@@ -176,7 +183,7 @@ class HomeFragment : Fragment(){
 
                         val roomService: RoomService
                         roomService = retrofit.create(RoomService::class.java)
-                        val request = roomService.activateReservation(reservation._id)
+                        val request = roomService.activateReservation(reservation._id,getHeaderMap(token))
 
                         request.enqueue(object : Callback<Reservation> {
                             override fun onFailure(call: Call<Reservation>, t: Throwable) {

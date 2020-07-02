@@ -20,6 +20,7 @@ import com.example.upcpool.R
 import com.example.upcpool.adapters.RoomAdapter
 import com.example.upcpool.controllers.activities.DetailsActivity
 import com.example.upcpool.controllers.activities.RoomActivity
+import com.example.upcpool.database.RoomDB
 import com.example.upcpool.entity.Features
 import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.ApiResponseDetails
@@ -40,6 +41,7 @@ import kotlin.time.days
 class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
     var room: List<RoomDto> = ArrayList();
     lateinit var recyclerView: RecyclerView
+    lateinit var token : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,11 +55,16 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.rvSharedRooms)
+        token  = RoomDB.getInstance(view.context).getTokenDAO().getLastToken().token
 
         loadShared(view.context)
 
     }
-
+    private fun getHeaderMap(token : String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Authorization"] = "Bearer $token"
+        return headerMap
+    }
     private fun loadShared(context: Context) {
 
         Log.d("LoadShared Function", "Init")
@@ -69,7 +76,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
 
         val roomService: RoomService
         roomService = retrofit.create(RoomService::class.java)
-        val request = roomService.getPublics()
+        val request = roomService.getPublics(getHeaderMap(token))
 
         request.enqueue(object : Callback<List<Reservation>> {
             override fun onFailure(call: Call<List<Reservation>>, t: Throwable) {
@@ -126,7 +133,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                             val aux : MutableList<String> = ArrayList()
                             aux.add("MAC")
                             val feat = Features(aux)
-                            val request = roomService.joinRoom(room.pubId, feat)
+                            val request = roomService.joinRoom(room.pubId, feat,getHeaderMap(token))
 
                             request.enqueue(object : Callback<Reservation> {
                                 override fun onFailure(call: Call<Reservation>, t: Throwable) {
@@ -174,7 +181,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                             val aux : MutableList<String> = ArrayList()
                             aux.add("Apple TV")
                             val feat = Features(aux)
-                            val request = roomService.joinRoom(room.pubId, feat)
+                            val request = roomService.joinRoom(room.pubId, feat,getHeaderMap(token))
 
                             request.enqueue(object : Callback<Reservation> {
                                 override fun onFailure(call: Call<Reservation>, t: Throwable) {
@@ -222,7 +229,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                             aux.add("MAC")
                             aux.add("Apple TV")
                             val feat = Features(aux)
-                            val request = roomService.joinRoom(room.pubId, feat)
+                            val request = roomService.joinRoom(room.pubId, feat,getHeaderMap(token))
 
                             request.enqueue(object : Callback<Reservation> {
                                 override fun onFailure(call: Call<Reservation>, t: Throwable) {
@@ -270,7 +277,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                             roomService = retrofit.create(RoomService::class.java)
                             val aux:List<String> = ArrayList()
                             val feat = Features(aux)
-                            val request = roomService.joinRoom(room.pubId, feat)
+                            val request = roomService.joinRoom(room.pubId, feat,getHeaderMap(token))
 
                             request.enqueue(object : Callback<Reservation> {
                                 override fun onFailure(call: Call<Reservation>, t: Throwable) {

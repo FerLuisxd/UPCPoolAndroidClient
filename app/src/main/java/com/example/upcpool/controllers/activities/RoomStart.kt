@@ -26,9 +26,8 @@ import kotlin.math.log
 class RoomStart : AppCompatActivity() {
 
     lateinit var image : ImageView
+    lateinit var login : Button
     override fun onCreate(savedInstanceState: Bundle?) {
-        val intento2 = Intent(this, MainActivity::class.java)
-        startActivity(intento2)
         var token = RoomDB.getInstance(this).getTokenDAO().getLastToken()
         if (token != null)
         {
@@ -42,14 +41,16 @@ class RoomStart : AppCompatActivity() {
 
         setContentView(R.layout.home_main)
 
-        val loginButton: Button = findViewById(R.id.loginButton)
+        login = findViewById(R.id.loginButton)
         val textTIU : EditText = findViewById(R.id.editTIU)
         val textPassword : EditText = findViewById(R.id.editPassword)
         var user = User()
-        loginButton.setOnClickListener{
+        login.setOnClickListener{
+            login.isClickable = false;
             user.userCode = textTIU.text.toString()
             user.password = textPassword.text.toString()
             Login(this,user)
+
         }
 
     }
@@ -74,6 +75,7 @@ class RoomStart : AppCompatActivity() {
                 call: Call<LoginResponseDetails>,
                 response: Response<LoginResponseDetails>
             ) {
+                login.isClickable = true;
                 if (response.isSuccessful) {
                     Log.d("Response", "message: " + response.code().toString())
                     if (response.code() == 201)
@@ -90,7 +92,7 @@ class RoomStart : AppCompatActivity() {
                 }
 
                 else{
-                    Log.d("Fail", "message: " + response.code().toString())
+                    Log.d("Fail", "message: " + response.code().toString() + ' '+ response.errorBody())
                 }
             }
         })

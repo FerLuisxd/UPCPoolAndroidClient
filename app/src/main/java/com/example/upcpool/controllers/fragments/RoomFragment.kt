@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.upcpool.R
 import com.example.upcpool.adapters.RoomAdapter
 import com.example.upcpool.controllers.activities.DetailsActivity
+import com.example.upcpool.database.RoomDB
 import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.ApiResponseDetails
 import com.example.upcpool.models.Availables
@@ -73,7 +74,11 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
             }
         })
     }
-
+    private fun getHeaderMap(token : String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Authorization"] = "Bearer $token"
+        return headerMap
+    }
     private fun loadRooms(context: Context, string: String){
 
         Log.d("Init load", "Init")
@@ -83,11 +88,11 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-
+        val token: String  = RoomDB.getInstance(context).getTokenDAO().getLastToken().token
         //DECLARAMOS NUESTRO OBJETO RoomService
         val roomService: RoomService
         roomService = retrofit.create(RoomService::class.java)
-        val request = roomService.getAvailable()
+        val request = roomService.getAvailable(getHeaderMap(token))
 
         
         request.enqueue(object : Callback<List<Availables>> {
