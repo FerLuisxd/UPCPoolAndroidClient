@@ -21,10 +21,13 @@
 
     <Button
         android:id="@+id/btn_shared"
+        android:backgroundTint="@color/softblack"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="true"
         android:text="Ver disponibles"
+        android:textSize="10dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
@@ -34,11 +37,15 @@
 
     <Button
         android:id="@+id/btn_room"
+
+        android:backgroundTint="@color/softblack"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="true"
         android:fadeScrollbars="false"
         android:text="Realizar reserva"
+        android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
@@ -52,7 +59,7 @@
         android:layout_height="75dp"
         android:text="Actualmente no tienes una reserva"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
@@ -66,7 +73,7 @@
         android:layout_height="69dp"
         android:text="Actualmente no te encuentras en un cubículo"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
@@ -176,6 +183,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.484" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Cubículos compartidos"
+        android:textColor="@color/softblack"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

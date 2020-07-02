@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        layout = "@layout/app_bar"
-        android:id="@+id/app_bar" />
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -19,14 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.163"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/new_logo" />
 
     <TextView
         android:id="@+id/textView"
+        android:gravity="center"
         android:layout_width="108dp"
         android:layout_height="58dp"
         android:text="Login"
-        android:textSize="35sp"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -53,6 +52,7 @@
         android:id="@+id/editPassword"
         android:layout_width="356dp"
         android:layout_height="56dp"
+
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,9 +64,12 @@
 
     <Button
         android:id="@+id/loginButton"
+        android:background="@drawable/button_rounded"
+        android:textColor="@color/white"
         android:layout_width="356dp"
         android:layout_height="56dp"
         android:text="INGRESAR"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
