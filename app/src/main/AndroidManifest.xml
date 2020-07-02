@@ -30,6 +30,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".controllers.activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".controllers.activities.RoomActivity"
+            android:parentActivityName=".controllers.activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.activities.MainActivity" />
+
+        </activity>
 
     </application>
 

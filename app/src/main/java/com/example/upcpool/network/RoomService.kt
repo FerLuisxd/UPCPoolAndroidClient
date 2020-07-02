@@ -1,7 +1,9 @@
 package com.example.upcpool.network
 
 import androidx.annotation.AnyRes
+import com.example.upcpool.entity.Features
 import com.example.upcpool.entity.ReservationPost
+import com.example.upcpool.entity.Share
 import com.example.upcpool.entity.User
 import com.example.upcpool.models.*
 import retrofit2.Call
@@ -62,4 +64,15 @@ interface RoomService {
     ])
     fun getPublics() : Call<List<Reservation>>
 
+    @POST("reservation/public/{id}")
+    @Headers(value = [
+        "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWFiYWQyZGYxNDk1NzAwMWQ3ZGMzNjgiLCJpYXQiOjE1ODgzMDkyOTMsImV4cCI6MTU5NjA4NTI5M30.dA7pSABqN3-9AMduIes-1sIyuKHrneM-qe8uhNXMS9Q"
+    ])
+    fun joinRoom(@Path("id")id:String, @Body()body : Features) : Call<Reservation>
+
+    @PUT("reservation/share/{id}")
+    @Headers(value = [
+        "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWFiYWQyZGYxNDk1NzAwMWQ3ZGMzNjgiLCJpYXQiOjE1ODgzMDkyOTMsImV4cCI6MTU5NjA4NTI5M30.dA7pSABqN3-9AMduIes-1sIyuKHrneM-qe8uhNXMS9Q"
+    ])
+    fun shareRoom(@Path("id")id:String, @Body()body : Share) : Call<Reservation>
 }

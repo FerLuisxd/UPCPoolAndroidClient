@@ -1,6 +1,7 @@
 package com.example.upcpool.controllers.fragments
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -10,12 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.upcpool.R
 import com.example.upcpool.adapters.RoomAdapter
 import com.example.upcpool.controllers.activities.DetailsActivity
+import com.example.upcpool.controllers.activities.RoomActivity
+import com.example.upcpool.entity.Features
 import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.ApiResponseDetails
 import com.example.upcpool.models.Availables
@@ -87,6 +92,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
 
                     allPublics.forEach() {
                         val auxRoom = RoomDto(it.room.id, it.room.office, it.room.code, it.room.seats - it.seats.size, it.publicFeatures, it.start)
+                        auxRoom.pubId = it._id
                         rooms.add(auxRoom)
                     }
 
@@ -101,7 +107,213 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(room: RoomDto) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        val alertbox = this.context?.let {
+            AlertDialog.Builder(it)
+                .setTitle("Elige con que elemento quieres ingresar:")
+                .setItems(arrayOf("MAC", "Apple TV", "Ambos", "Ninguno")) {_, pos->
+                    when (pos) {
+                        0 -> {
+                            Log.d("OnItemClicked para unirte a un compartido", "Init")
+
+                            val retrofit = Retrofit.Builder()
+                                .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build()
+
+                            val roomService: RoomService
+                            roomService = retrofit.create(RoomService::class.java)
+                            val aux : MutableList<String> = ArrayList()
+                            aux.add("MAC")
+                            val feat = Features(aux)
+                            val request = roomService.joinRoom(room.pubId, feat)
+
+                            request.enqueue(object : Callback<Reservation> {
+                                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                                    Log.d("Unirse al cub pub", "Error: "+t.toString())
+                                }
+
+                                override fun onResponse(
+                                    call: Call<Reservation>,
+                                    responseDetails: Response<Reservation>
+                                ) {
+                                    if (responseDetails.isSuccessful) {
+                                        Log.d("MSG", responseDetails.message())
+                                        Log.d("Error Body", responseDetails.errorBody().toString())
+                                        Log.d("Activity Success", responseDetails.raw().toString())
+                                        Log.d("Activity Success", responseDetails.body().toString())
+
+                                        val intento = Intent(context, RoomActivity::class.java)
+                                        intento.putExtra("Room", room)
+                                        startActivity(intento)
+                                    }
+                                    else
+                                    {
+                                        val alert = context?.let { it1 -> AlertDialog.Builder(it1)
+                                            .setTitle("No has podido unirte a este cubiculo")
+                                            .setNeutralButton("Ok") { arg0, arg1 ->
+
+                                            }
+                                            .show()
+                                        }
+                                    }
+                                }
+                            })
+                        }
+
+                        1 -> {
+                            Log.d("OnItemClicked para unirte a un compartido", "Init")
+
+                            val retrofit = Retrofit.Builder()
+                                .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build()
+
+                            val roomService: RoomService
+                            roomService = retrofit.create(RoomService::class.java)
+                            val aux : MutableList<String> = ArrayList()
+                            aux.add("Apple TV")
+                            val feat = Features(aux)
+                            val request = roomService.joinRoom(room.pubId, feat)
+
+                            request.enqueue(object : Callback<Reservation> {
+                                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                                    Log.d("Unirse al cub pub", "Error: "+t.toString())
+                                }
+
+                                override fun onResponse(
+                                    call: Call<Reservation>,
+                                    responseDetails: Response<Reservation>
+                                ) {
+                                    if (responseDetails.isSuccessful) {
+                                        Log.d("MSG", responseDetails.message())
+                                        Log.d("Error Body", responseDetails.errorBody().toString())
+                                        Log.d("Activity Success", responseDetails.raw().toString())
+                                        Log.d("Activity Success", responseDetails.body().toString())
+
+                                        val intento = Intent(context, RoomActivity::class.java)
+                                        intento.putExtra("Room", room)
+                                        startActivity(intento)
+                                    }
+                                    else
+                                    {
+                                        val alert = context?.let { it1 -> AlertDialog.Builder(it1)
+                                            .setTitle("No has podido unirte a este cubiculo")
+                                            .setNeutralButton("Ok") { arg0, arg1 ->
+
+                                            }
+                                            .show()
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        2-> {
+                            Log.d("OnItemClicked para unirte a un compartido", "Init")
+
+                            val retrofit = Retrofit.Builder()
+                                .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build()
+
+                            val roomService: RoomService
+                            roomService = retrofit.create(RoomService::class.java)
+                            val aux : MutableList<String> = ArrayList()
+                            aux.add("MAC")
+                            aux.add("Apple TV")
+                            val feat = Features(aux)
+                            val request = roomService.joinRoom(room.pubId, feat)
+
+                            request.enqueue(object : Callback<Reservation> {
+                                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                                    Log.d("Unirse al cub pub", "Error: "+t.toString())
+                                }
+
+                                override fun onResponse(
+                                    call: Call<Reservation>,
+                                    responseDetails: Response<Reservation>
+                                ) {
+                                    if (responseDetails.isSuccessful) {
+                                        Log.d("MSG", responseDetails.message())
+                                        Log.d("Error Body", responseDetails.errorBody().toString())
+                                        Log.d("Activity Success", responseDetails.raw().toString())
+                                        Log.d("Activity Success", responseDetails.body().toString())
+
+                                        val intento = Intent(context, RoomActivity::class.java)
+                                        intento.putExtra("Room", room)
+                                        startActivity(intento)
+                                    }
+                                    else
+                                    {
+                                        val alert = context?.let { it1 -> AlertDialog.Builder(it1)
+                                            .setTitle("No has podido unirte a este cubiculo")
+                                            .setNeutralButton("Ok") { arg0, arg1 ->
+
+                                            }
+                                            .show()
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        3->{
+                            Log.d("OnItemClicked para unirte a un compartido", "Init")
+
+                            val retrofit = Retrofit.Builder()
+                                .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build()
+
+                            println("Si entro")
+
+                            val roomService: RoomService
+                            roomService = retrofit.create(RoomService::class.java)
+                            val aux:List<String> = ArrayList()
+                            val feat = Features(aux)
+                            val request = roomService.joinRoom(room.pubId, feat)
+
+                            request.enqueue(object : Callback<Reservation> {
+                                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                                    println("Me caigo")
+                                    Log.d("Unirse al cub pub", "Error: "+t.toString())
+                                }
+
+                                override fun onResponse(
+                                    call: Call<Reservation>,
+                                    responseDetails: Response<Reservation>
+                                ) {
+                                    println("Si paso")
+                                    if (responseDetails.isSuccessful) {
+                                        Log.d("MSG", responseDetails.message())
+                                        Log.d("Error Body", responseDetails.errorBody().toString())
+                                        Log.d("Activity Success", responseDetails.raw().toString())
+                                        Log.d("Activity Success", responseDetails.body().toString())
+
+                                        val intento = Intent(context, RoomActivity::class.java)
+                                        intento.putExtra("Room", room)
+                                        startActivity(intento)
+                                    }
+                                    else
+                                    {
+                                        Log.d("MSG", responseDetails.message())
+                                        Log.d("Error Body", responseDetails.errorBody().toString())
+                                        Log.d("Activity Success", responseDetails.raw().toString())
+                                        Log.d("Activity Success", responseDetails.body().toString())
+                                        val alert = context?.let { it1 -> AlertDialog.Builder(it1)
+                                            .setTitle("No has podido unirte a este cubiculo")
+                                            .setNeutralButton("Ok") { arg0, arg1 ->
+
+                                            }
+                                            .show()
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+                .show()
+        }
     }
 
 }
