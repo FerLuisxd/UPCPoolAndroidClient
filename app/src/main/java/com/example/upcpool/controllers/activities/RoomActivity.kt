@@ -1,6 +1,7 @@
 package com.example.upcpool.controllers.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -113,6 +114,12 @@ class RoomActivity : AppCompatActivity() {
 
         request.enqueue(object : Callback<Reservation> {
             override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                val mAlertDialog = AlertDialog.Builder(context)
+                mAlertDialog.setTitle("Ha ocurrido un error")
+                mAlertDialog.setMessage(t.message)
+                mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                }
+                mAlertDialog.show()
                 println(t)
                 println("Error en peticion de compartir")
             }
@@ -138,6 +145,12 @@ class RoomActivity : AppCompatActivity() {
                     Log.d("Activity Success", responseDetails.raw().toString())
                     Log.d("Activity Success", responseDetails.body().toString())
                     println("shareRoom no devlolvio 200")
+                    val mAlertDialog = AlertDialog.Builder(context)
+                    mAlertDialog.setTitle("Ha ocurrido un error")
+                    mAlertDialog.setMessage("El cubiculo aun no esta activo")
+                    mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                    }
+                    mAlertDialog.show()
                 }
             }
         })

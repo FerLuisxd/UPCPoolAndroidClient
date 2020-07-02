@@ -74,7 +74,7 @@ class DetailsActivity : AppCompatActivity() {
 
         btnYes.setOnClickListener {
             reserveRoom(RoomObject, context)
-            finish()
+
         }
     }
     private fun getHeaderMap(token : String): Map<String, String> {
@@ -103,13 +103,32 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
-                /*val mAlertDialog = AlertDialog.Builder(context)
-                mAlertDialog.setTitle("Cubiculo reservado")
-                mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+
+                if (response.isSuccessful)
+                {
+                    val mAlertDialog = AlertDialog.Builder(context)
+                    mAlertDialog.setTitle("Cubiculo reservado")
+                    mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                        finish()
+                    }
+                    mAlertDialog.show()
+
+                    println(response)
+                    println("Reserva hecha correctamente !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
                 }
-                mAlertDialog.show()*/
-                println(response)
-                println("Reserva hecha correctamente !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                else
+                {
+                    val mAlertDialog = AlertDialog.Builder(context)
+                    mAlertDialog.setTitle(response.message())
+                    mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                        finish()
+                    }
+                    mAlertDialog.show()
+
+                    println(response)
+                    println("Error al reservar cubiculo")
+                }
             }
 
 

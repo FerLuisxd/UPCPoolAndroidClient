@@ -43,7 +43,7 @@ interface RoomService {
     //@Headers(value = [
     //    "Authorization: Bearer $token"
     //])
-    fun getReservations() : Call<List<Reservation>>
+    fun getReservations(@HeaderMap headers: Map<String, String>) : Call<List<Reservation>>
 
     //Obtener cubiculos reservados
     @PUT("reservation/{id}")
@@ -56,7 +56,7 @@ interface RoomService {
     //@Headers(value = [
     //    "Authorization: Bearer $token"
     //])
-    fun getUser() : Call<UserDto>
+    fun getUser(@HeaderMap headers: Map<String, String>) : Call<UserDto>
 
     @GET("reservation/public")
     //@Headers(value = [

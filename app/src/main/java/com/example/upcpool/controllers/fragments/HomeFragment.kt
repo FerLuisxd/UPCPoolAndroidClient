@@ -63,7 +63,7 @@ class HomeFragment : Fragment(){
 
         val roomService: RoomService
         roomService = retrofit.create(RoomService::class.java)
-        val request = roomService.getReservations()
+        val request = roomService.getReservations(getHeaderMap(token))
 
         request.enqueue(object : Callback<List<Reservation>> {
 
@@ -95,7 +95,12 @@ class HomeFragment : Fragment(){
 
                         view.findViewById<TextView>(R.id.tv_code).text = reservation.room.code
                         view.findViewById<TextView>(R.id.tv_seats).text = reservation.room.seats.toString()
-                        view.findViewById<TextView>(R.id.tv_date).text = reservation.start.toString()
+
+                        val cal = Calendar.getInstance()
+                        cal.setTime(reservation.start)
+                        cal.add(Calendar.HOUR, -5)
+
+                        view.findViewById<TextView>(R.id.tv_date).text = cal.getTime().toString()
                         view.findViewById<TextView>(R.id.tv_office).text = reservation.room.office
                         view.findViewById<TextView>(R.id.tv_recurso1).text = reservation.room.features[0]
                         view.findViewById<TextView>(R.id.tv_recurso2).text = reservation.room.features[1]
@@ -113,7 +118,7 @@ class HomeFragment : Fragment(){
                                 startActivity(intento)
                             }
                             else {
-                                val r = roomService.getUser()
+                                val r = roomService.getUser(getHeaderMap(token))
                                 r.enqueue(object : Callback<UserDto> {
                                     override fun onFailure(call: Call<UserDto>, t: Throwable) {
                                         println("Fallo en obtener el user")
@@ -219,7 +224,7 @@ class HomeFragment : Fragment(){
                                         else {
                                             val mAlertDialog = AlertDialog.Builder(context)
                                             mAlertDialog.setTitle("Cubiculo activado!!!")
-                                            mAlertDialog.setMessage("Falta que el otro estudiante active el cubiculo")
+                                            //mAlertDialog.setMessage("Falta que el otro estudiante active el cubiculo")
                                             mAlertDialog.setPositiveButton("Ok") { dialog, id ->
                                                 val intento = Intent(context, RoomActivity::class.java)
                                                 intento.putExtra("Room", activo.room)
@@ -231,6 +236,12 @@ class HomeFragment : Fragment(){
                                 }
                                 else{
                                     Log.d("Error en HomeFragment, Activar reserva, respuesta no es 200", "Error: "+responseDetails)
+                                    val mAlertDialog = AlertDialog.Builder(context)
+                                    mAlertDialog.setTitle("Ha ocurrido un error")
+                                    mAlertDialog.setMessage(responseDetails.message())
+                                    mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                                    }
+                                    mAlertDialog.show()
                                 }
                             }
                         })
