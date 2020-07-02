@@ -47,7 +47,12 @@ class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context
         holder.tvNumber.text = room.code
         holder.tvTopic.text = "TODO"
         holder.tvInfo.text = room.office
-        holder.tvResources.text = room.features[0] + room.features[1]
+
+        var auxResource: String = ""
+        room.features.forEach(){
+            auxResource += it
+        }
+        holder.tvResources.text = auxResource
         holder.tvSitsLeft.text = room.seats.toString()
 
         val date = room.date
