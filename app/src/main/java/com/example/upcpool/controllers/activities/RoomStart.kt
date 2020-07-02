@@ -27,6 +27,8 @@ class RoomStart : AppCompatActivity() {
 
     lateinit var image : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
+        val intento2 = Intent(this, MainActivity::class.java)
+        startActivity(intento2)
         var token = RoomDB.getInstance(this).getTokenDAO().getLastToken()
         if (token != null)
         {
