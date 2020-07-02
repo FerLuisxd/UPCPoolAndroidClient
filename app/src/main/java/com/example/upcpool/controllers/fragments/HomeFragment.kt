@@ -22,6 +22,7 @@ import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Reservation
 import com.example.upcpool.models.Seat
 import com.example.upcpool.network.RoomService
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -116,16 +117,30 @@ class HomeFragment : Fragment(){
                         view.findViewById<Button>(R.id.btn_room).visibility = Button.INVISIBLE
                         view.findViewById<ConstraintLayout>(R.id.actual_reserve).visibility = ConstraintLayout.VISIBLE
 
-                        val layout = view.findViewById<ConstraintLayout>(R.id.actual_reserve)
-                        layout.setOnClickListener{
-                            if (reservation.active)
-                            {
+                        if (reservation.active) {
+
+                            view.findViewById<TextView>(R.id.tv_actualDate).text= date
+                            view.findViewById<TextView>(R.id.tv_actualOffice).text= reservation.room.office
+                            view.findViewById<TextView>(R.id.tv_actualRecurso1).text = reservation.room.features[0]
+                            view.findViewById<TextView>(R.id.tv_actuLRecurso2).text = reservation.room.features[1]
+                            view.findViewById<TextView>(R.id.tv_actualCode).text = reservation.room.code
+                            view.findViewById<TextView>(R.id.tv_actualSeats).text = reservation.room.seats.toString()
+
+                            view.findViewById<Button>(R.id.btn_shared).isEnabled = false
+                            view.findViewById<Button>(R.id.btn_shared).visibility = Button.INVISIBLE
+                            view.findViewById<ConstraintLayout>(R.id.actual_room).visibility = ConstraintLayout.VISIBLE
+
+                            val layout = view.findViewById<ConstraintLayout>(R.id.actual_room)
+                            layout.setOnClickListener{
                                 val intento = Intent(context, RoomActivity::class.java)
                                 intento.putExtra("Room", reservation.room)
                                 startActivity(intento)
                             }
-                            else {
-                                val r = roomService.getUser(getHeaderMap(token))
+                        }
+                        val layout = view.findViewById<ConstraintLayout>(R.id.actual_reserve)
+                        layout.setOnClickListener{
+
+                                /*val r = roomService.getUser(getHeaderMap(token))
                                 r.enqueue(object : Callback<UserDto> {
                                     override fun onFailure(call: Call<UserDto>, t: Throwable) {
                                         println("Fallo en obtener el user")
@@ -150,9 +165,9 @@ class HomeFragment : Fragment(){
                                                     startActivity(intento)
                                                 }
                                                 else
-                                                {
+                                                {*/
                                                     activar(reservation, context)
-                                                }
+                                                /*}
                                             }
                                         }
                                         else
@@ -160,8 +175,7 @@ class HomeFragment : Fragment(){
                                             println("La respuesta no fue 200")
                                         }
                                     }
-                                })
-                            }
+                                })*/
                         }
 
                     }
@@ -261,6 +275,10 @@ class HomeFragment : Fragment(){
             }
 
         }
+
+    }
+
+    private fun entrar(){
 
     }
 
