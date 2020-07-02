@@ -106,6 +106,8 @@ class DetailsActivity : AppCompatActivity() {
 
         request?.enqueue(object : Callback<Reservation> {
             override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                println("/////////////////")
+                println(t)
                 Log.d("Details Activity Fail", "Error: "+t.toString())
             }
 

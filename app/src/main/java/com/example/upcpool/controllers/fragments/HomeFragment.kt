@@ -84,10 +84,10 @@ class HomeFragment : Fragment(){
                         var reservation : Reservation = allReservations[0]
 
                         allReservations.forEach{
-                            if(it.start < reservation.start)
-                            {
+                            //if(it.start < reservation.start)
+                            //{
                                 reservation=it
-                            }
+                            //}
                         }
                         reservation.room.pubId = reservation._id
                         reservation.room.theme = reservation.theme
@@ -99,11 +99,8 @@ class HomeFragment : Fragment(){
                         cal.setTime(reservation.start)
                         cal.add(Calendar.HOUR, -5)*/
 
-                        val formatter = SimpleDateFormat("dd-MMMM HH:00");
 
-                        val date = formatter.format(reservation.start)
-
-                        view.findViewById<TextView>(R.id.tv_date).text = date
+                        view.findViewById<TextView>(R.id.tv_date).text = reservation.start
                         view.findViewById<TextView>(R.id.tv_office).text = reservation.room.office
                         view.findViewById<TextView>(R.id.tv_recurso1).text = reservation.room.features[0]
                         view.findViewById<TextView>(R.id.tv_recurso2).text = reservation.room.features[1]
