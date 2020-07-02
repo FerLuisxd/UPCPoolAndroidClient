@@ -23,11 +23,14 @@ import com.example.upcpool.controllers.activities.RoomActivity
 import com.example.upcpool.database.RoomDB
 import com.example.upcpool.entity.Features
 import com.example.upcpool.entity.RoomDto
+import com.example.upcpool.entity.Share
 import com.example.upcpool.models.ApiResponseDetails
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Reservation
 import com.example.upcpool.models.Room
 import com.example.upcpool.network.RoomService
+import kotlinx.android.synthetic.main.join_modal.view.*
+import kotlinx.android.synthetic.main.share_modal.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -115,7 +118,7 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(room: RoomDto) {
-        val alertbox = this.context?.let {
+        /*val alertbox = this.context?.let {
             AlertDialog.Builder(it)
                 .setTitle("Elige con que elemento quieres ingresar:")
                 .setItems(arrayOf("MAC", "Apple TV", "Ambos", "Ninguno")) {_, pos->
@@ -320,7 +323,100 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     }
                 }
                 .show()
+        }*/
+
+        val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.join_modal, null)
+
+        val mBuilder = this.context?.let {
+            AlertDialog.Builder(it)
+                .setView(mDialogView)
+                .setTitle("Elige tus recursos")
+        }
+
+        val mAlertDialog = mBuilder?.show()
+
+        mDialogView.btnJoin.setOnClickListener{
+            if (mAlertDialog != null) {
+                mAlertDialog.dismiss()
+            }
+
+            val mac = mDialogView.checkMac.isChecked
+            val apple = mDialogView.checkApple.isChecked
+
+            val features: MutableList<String> = ArrayList()
+
+            if (mac) features.add("MAC")
+            if (apple) features.add("Apple TV")
+
+            val auxFeatures = Features(features)
+            if (room != null) {
+                join(room, auxFeatures)
+            }
         }
     }
 
+    private fun join(room: RoomDto, features: Features){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://upc-pool-ferluisxd.cloud.okteto.net/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val token: String?  =
+            this.context?.let { RoomDB.getInstance(it).getTokenDAO().getLastToken().token }
+        val roomService: RoomService
+        roomService = retrofit.create(RoomService::class.java)
+        val request =
+            token?.let { getHeaderMap(it) }?.let { roomService.joinRoom(room.pubId, features, it) }
+
+        if (request != null) {
+            request.enqueue(object : Callback<Reservation> {
+                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                    println("Me caigo")
+                    Log.d("Unirse al cub pub", "Error: "+t.toString())
+                    val mAlertDialog = context?.let { AlertDialog.Builder(it) }
+                    if (mAlertDialog != null) {
+                        mAlertDialog.setTitle("Ha ocurrido un error")
+                        mAlertDialog.setMessage(t.message)
+                        mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                        }
+                        mAlertDialog.show()
+                    }
+                }
+                override fun onResponse(call: Call<Reservation>, responseDetails: Response<Reservation>) {
+                    println("Si paso")
+                    if (responseDetails.isSuccessful) {
+                        Log.d("MSG", responseDetails.message())
+                        Log.d("Error Body", responseDetails.errorBody().toString())
+                        Log.d("Activity Success", responseDetails.raw().toString())
+                        Log.d("Activity Success", responseDetails.body().toString())
+                        val mAlertDialog = context?.let { AlertDialog.Builder(it) }
+                        if (mAlertDialog != null) {
+                            mAlertDialog.setTitle("Has ingresado al cubículo")
+                            mAlertDialog.setPositiveButton("Ok") { dialog, id ->
+                                val intento = Intent(context, RoomActivity::class.java)
+                                intento.putExtra("Room", room)
+                                startActivity(intento)
+                            }
+                            mAlertDialog.show()
+                        }
+                    }
+                    else
+                    {
+                        Log.d("MSG", responseDetails.message())
+                        Log.d("Error Body", responseDetails.errorBody().toString())
+                        Log.d("Activity Success", responseDetails.raw().toString())
+                        Log.d("Activity Success", responseDetails.body().toString())
+                        val alert = context?.let { it1 -> AlertDialog.Builder(it1)
+                            .setTitle("No has podido unirte a este cubiculo")
+                            .setNeutralButton("Ok") { arg0, arg1 ->
+
+                            }
+                            .show()
+                        }
+                    }
+                }
+            })
+        }
+
+    }
 }

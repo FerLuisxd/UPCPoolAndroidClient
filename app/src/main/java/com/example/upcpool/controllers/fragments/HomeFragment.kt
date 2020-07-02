@@ -27,6 +27,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -100,7 +103,11 @@ class HomeFragment : Fragment(){
                         cal.setTime(reservation.start)
                         cal.add(Calendar.HOUR, -5)
 
-                        view.findViewById<TextView>(R.id.tv_date).text = cal.getTime().toString()
+                        val formatter = SimpleDateFormat("dd-MMMM HH:00");
+
+                        val date = formatter.format(cal.time)
+
+                        view.findViewById<TextView>(R.id.tv_date).text = date
                         view.findViewById<TextView>(R.id.tv_office).text = reservation.room.office
                         view.findViewById<TextView>(R.id.tv_recurso1).text = reservation.room.features[0]
                         view.findViewById<TextView>(R.id.tv_recurso2).text = reservation.room.features[1]

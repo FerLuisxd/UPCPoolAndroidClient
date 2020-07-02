@@ -12,6 +12,7 @@ import com.example.upcpool.entity.RoomDto
 import com.example.upcpool.models.Available
 import com.example.upcpool.models.Availables
 import com.example.upcpool.models.Room
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
@@ -59,9 +60,11 @@ class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context
         val cal = Calendar.getInstance()
         cal.setTime(date)
         cal.add(Calendar.HOUR, -5)
-        val aux:Date = cal.getTime()
+
+        val formatter = SimpleDateFormat("dd-MMMM HH:00");
+        val aux = formatter.format(cal.time)
         //holder.tvDate.text = room.date.toString()
-        holder.tvDate.text = aux.toString()
+        holder.tvDate.text = aux
 
 
     /*    val picBuilder = Picasso.Builder(context)

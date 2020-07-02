@@ -50,29 +50,6 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
         recyclerView = view.findViewById(R.id.rvRooms)
 
         loadRooms(view.context,"terminator")
-
-        editText = view.findViewById(R.id.editText)
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-                loadRooms(view.context,s.toString())
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun afterTextChanged(s: Editable) {
-            }
-        })
     }
     private fun getHeaderMap(token : String): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
