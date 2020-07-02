@@ -70,8 +70,9 @@ class DetailsActivity : AppCompatActivity() {
 
         tvNumber.text = RoomObject?.code
         tvInfo.text = RoomObject?.office
-        tvTopic.text = RoomObject?.seats.toString()
-
+        if (RoomObject != null) {
+            tvTopic.text = RoomObject?.features[0] + " - " + RoomObject?.features[1]
+        }
 
         btnYes.setOnClickListener {
             reserveRoom(RoomObject, context)

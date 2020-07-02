@@ -20,6 +20,8 @@
         android:text="TextView"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvInfoLabel"
         app:layout_constraintTop_toBottomOf="@+id/tvTopic" />
 
     <TextView
@@ -32,16 +34,18 @@
         android:text="TextView"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvCode"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="140dp"
         android:text="Código :"
         android:textSize="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/tvNumber"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,8 +56,11 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="80dp"
         android:text="TextView"
+        android:textAlignment="viewStart"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvThread"
         app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
 
     <Button
@@ -122,22 +129,22 @@
         android:id="@+id/tvThread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="108dp"
-        android:text="Tema :"
+        android:text="Recursos :"
         android:textSize="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/tvTopic"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCode" />
 
     <TextView
         android:id="@+id/tvInfoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="120dp"
-        android:text="Info :"
+        android:text="Sede :"
         android:textSize="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/tvInfo"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvThread" />
 
 

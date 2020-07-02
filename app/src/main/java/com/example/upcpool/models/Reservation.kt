@@ -15,7 +15,7 @@ data class Reservation(
     @SerializedName("active")
     var active:Boolean,
     @SerializedName("start")
-    var start: Date,
+    var start: String,
     @SerializedName("end")
     var end:Date,
     @SerializedName("room")

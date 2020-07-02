@@ -100,8 +100,10 @@ class SharedFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     val allPublics: List<Reservation> = responseDetails.body() ?: ArrayList()
                     val rooms: MutableList<RoomDto> = ArrayList()
 
+                    val aaa = Calendar.getInstance()
+
                     allPublics.forEach() {
-                        val auxRoom = RoomDto(it.room.id, it.room.office, it.room.code, it.room.seats - it.seats.size, it.publicFeatures, it.start)
+                        val auxRoom = RoomDto(it.room.id, it.room.office, it.room.code, it.room.seats - it.seats.size, it.publicFeatures, aaa.time , it.start)
                         auxRoom.pubId = it._id
                         auxRoom.theme = it.theme
                         rooms.add(auxRoom)

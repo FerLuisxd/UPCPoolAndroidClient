@@ -95,13 +95,13 @@ class HomeFragment : Fragment(){
                         view.findViewById<TextView>(R.id.tv_code).text = reservation.room.code
                         view.findViewById<TextView>(R.id.tv_seats).text = reservation.room.seats.toString()
 
-                        val cal = Calendar.getInstance()
+                        /*val cal = Calendar.getInstance()
                         cal.setTime(reservation.start)
-                        cal.add(Calendar.HOUR, -5)
+                        cal.add(Calendar.HOUR, -5)*/
 
                         val formatter = SimpleDateFormat("dd-MMMM HH:00");
 
-                        val date = formatter.format(cal.time)
+                        val date = formatter.format(reservation.start)
 
                         view.findViewById<TextView>(R.id.tv_date).text = date
                         view.findViewById<TextView>(R.id.tv_office).text = reservation.room.office
@@ -341,13 +341,13 @@ class HomeFragment : Fragment(){
                                             pub.room.theme = pub.theme
                                             pub.room.pubId = pub._id
 
-                                            val cal = Calendar.getInstance()
+                                            /*val cal = Calendar.getInstance()
                                             cal.setTime(pub.start)
-                                            cal.add(Calendar.HOUR, -5)
+                                            cal.add(Calendar.HOUR, -5)*/
 
                                             val formatter = SimpleDateFormat("dd-MMMM HH:00");
 
-                                            val date = formatter.format(cal.time)
+                                            val date = formatter.format(pub.start)
 
                                             view.findViewById<TextView>(R.id.tv_actualDate).text= date
                                             view.findViewById<TextView>(R.id.tv_actualOffice).text= pub.room.office

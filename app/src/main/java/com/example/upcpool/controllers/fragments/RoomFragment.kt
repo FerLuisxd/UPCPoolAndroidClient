@@ -75,6 +75,8 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
         request.enqueue(object : Callback<List<Availables>> {
 
             override fun onFailure(call: Call<List<Availables>>, t: Throwable) {
+                println("Esta saliendo mal")
+                println(t)
                 Log.d("Activity Fail", "Error: "+t.toString())
             }
 
@@ -93,20 +95,20 @@ class RoomFragment : Fragment(), RoomAdapter.OnItemClickListener {
                     val cal = Calendar.getInstance()
                     val rooms: MutableList<RoomDto> = ArrayList()
 
-                    cal.add(Calendar.HOUR, 6) //Debe ser 1 pero se le suman 5 mas por el GMT
+                    //cal.add(Calendar.HOUR, 4) //Debe ser 1 pero se le suman 5 mas por el GMT
 
                     println(cal)
                     println(cal.time)
                     println("////////////////////////////////////////////////////////////////////////////////////////////")
 
                     allAvailables.forEach() {available ->
-                        if (available.start > cal.time) {
+                        //if (available.start > cal.time) {
                             println(available.start)
                             available.available.forEach{ room->
-                                val auxRoom = RoomDto(room.id, room.office,room.code,room.seats,room.features,available.start)
+                                val auxRoom = RoomDto(room.id, room.office,room.code,room.seats,room.features,available.startOriginal, available.start)
                                 rooms.add(auxRoom)
                             }
-                        }
+                        //}
                     }
 
                     //val rooms: List<Room> = responseDetails.body()!![0].available ?: ArrayList()

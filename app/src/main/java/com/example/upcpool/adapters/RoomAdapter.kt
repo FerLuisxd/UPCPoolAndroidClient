@@ -57,14 +57,15 @@ class RoomAdapter(private val rooms: List<RoomDto>, private val context: Context
         holder.tvSitsLeft.text = room.seats.toString()
 
         val date = room.date
-        val cal = Calendar.getInstance()
+        /*val cal = Calendar.getInstance()
         cal.setTime(date)
-        cal.add(Calendar.HOUR, -5)
+        cal.add(Calendar.HOUR, -5)*/
 
         val formatter = SimpleDateFormat("dd-MMMM HH:00");
-        val aux = formatter.format(cal.time)
+        val aux = formatter.format(room.date)
         //holder.tvDate.text = room.date.toString()
-        holder.tvDate.text = aux
+        holder.tvDate.text = room.fecha
+
 
 
     /*    val picBuilder = Picasso.Builder(context)
